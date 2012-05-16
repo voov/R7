@@ -106,6 +106,7 @@ class Route {
      * add it to the function hooks
      * @param $name
      * @param $arguments
+     * @return \R7\Route
      */
     public function __call($name, $arguments) {
         // check if there is a function hook already for that method
@@ -124,6 +125,7 @@ class Route {
      * Execute the route on the given URI with the given method
      * @param $uri
      * @param string $method
+     * @return bool|mixed|null
      */
     public function executeOn($uri, $method="get") {
         $matches = array();
