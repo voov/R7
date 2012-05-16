@@ -174,7 +174,7 @@ class Response {
     private $data = array();
     private $status = 200;
 
-    function __construct($status, $data) {
+    function __construct($status=200, $data=array()) {
         $this->status = $status;
         $this->data = $data;
     }
