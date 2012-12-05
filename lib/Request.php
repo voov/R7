@@ -26,52 +26,6 @@
     (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+class Request {
 
-namespace R7;
-require_once "lib/Request.php";
-require_once "lib/Response.php";
-require_once "lib/Route.php";
-
-class R7 {
-    private $routes = array();
-
-    /**
-     * Add a route to the application
-     * @param Route $r
-     */
-    public function addRoute(Route $r) {
-        $this->routes[] = $r;
-    }
-
-    /**
-     * Executes the application
-     * if there is a response object coming from one of the routes, then it will be displayed
-     * @return mixed
-     */
-    public function execute() {
-        $method = strtolower($_SERVER["REQUEST_METHOD"]);
-        $fullUri = parse_url($_SERVER["REQUEST_URI"]);
-        $uri = $fullUri["path"];
-
-        $response = null;
-        foreach($this->routes as $route) {
-            $response = $route->executeOn($uri, $method);
-        }
-        if($response == null) return; // we have nothing to give back
-
-        $type = isset($_GET["type"]) ? $_GET["type"] : "json";
-        switch($type) {
-            case "json":
-                echo $response->toJSON();
-                break;
-            case "xml":
-                echo $response->toXML();
-                break;
-            case "csv":
-                echo $response->toCSV();
-                break;
-            default:
-                break;
-        }
-    }
 }
