@@ -2,6 +2,11 @@
 Incredibly small multi-purpose RESTful PHP framework. The main idea behind R7 was to create the smallest, and fastest PHP framework
 designed to handle RESTful calls.
 
+## License
+
+The package is licensed under the permissive New BSD license. You may use it in open-source and in commercial products
+equally. For more information read LICENSE.md
+
 ## Design
 The R7 is based around Routes and Responses. Every route is essentially a URL path that can have Rails like
 URL parameters. Routes can be created by using either creating a new object or using the `create` method
