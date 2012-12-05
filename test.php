@@ -3,7 +3,7 @@ require_once "R7.php";
 ini_set("display_errors", 1);
 
 class NewUser {
-    function main($data) {
+    function main($req, $data) {
         $ret_data = array(
             "username" => $data["name"],
             "moredata" => array("value" => $data["value"], "x" => "nemix")
@@ -14,7 +14,7 @@ class NewUser {
 
 $app = new \R7\R7();
 $app->addRoute(\R7\Route::create("/index/teszt/:name/:value")->get(new NewUser()));
-$app->addRoute(\R7\Route::create("/auth/:name")->get(function($data) {
+$app->addRoute(\R7\Route::create("/auth/:name")->get(function($req, $data) {
         return new \R7\Response(200, array("id" => $data["name"]));
     })
 );

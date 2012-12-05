@@ -98,7 +98,7 @@ class Route {
             foreach($this->funcHooks[$method] as $func) {
 
                 //$retvalue = $func($this->params);
-                $retvalue = call_user_func($func, $this->params);
+                $retvalue = call_user_func($func, new Request(), $this->params);
                 if($retvalue != null) $response = $retvalue;
             }
             return $response;

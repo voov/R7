@@ -26,6 +26,64 @@
     (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 class Request {
 
+	private $data = array();
+	public function __construct() {
+		// TODO: clean the input
+		$this->data = $_REQUEST;
+	}
+
+	/**
+	 * Magic getter
+	 * @param $key
+	 * @return mixed
+	 */
+	public function __get($key) {
+		return $this->data[$key];
+	}
+
+
+	/**
+	 * Magic setter
+	 * @param $key
+	 * @param $value
+	 */
+	public function __set($key, $value) {
+		$this->data[$key] = $value;
+	}
+
+
+	/**
+	 * Verifies if data wasn't tampered with
+	 * @param $pubKey
+	 * @return int
+	 * @throws Exception
+	 */
+	public function verifySignature($pubKey) {
+		if(!isset($this->data["signature"])) {
+			throw new Exception("Signature is not found!");
+		}
+		$key = openssl_pkey_get_public($pubKey);
+		$bufferToVerify = $this->data;
+		unset($bufferToVerify["signature"]); // remove the signature element
+		return openssl_verify(http_build_query($bufferToVerify), $this->data["signature"], $key);
+	}
+
+	/**
+	 * Creates a signed request string
+	 * @param $data
+	 * @param $privKey
+	 * @param $password
+	 * @return string
+	 */
+	public static function makeRequest($data, $privKey, $password) {
+		$queryToSign = http_build_query($data);
+		$key = openssl_pkey_get_private($privKey, $password);
+		$signature = "";
+		openssl_sign($queryToSign, $signature, $key);
+		$data["signature"] = $signature;
+		return http_build_query($data); // recompose query string and return it
+	}
 }
