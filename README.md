@@ -51,3 +51,17 @@ while calling it with `http://example.com/index/test/voov/10?type=xml` returns
         <name>voov</name>
         <value>10</value>
      </root>
+
+### Requests
+
+Request objects are handed to the controller function as the first parameter. You can access the `GET`, `POST`, `PUT` or
+`DELETE` parameters from here, and also verify a signed request.
+
+To create a signed request:
+
+     /* $dataArray is a key-value associative array of the data
+      * The function returns a key1=value1&key2=value2&signature=XXXXXXXXXX
+      * representation of the $dataArray
+      */
+     \R7\Request::makeRequest($dataArray, file_get_contents("/path/to/private.key.pem"));
+
