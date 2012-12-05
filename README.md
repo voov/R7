@@ -76,7 +76,7 @@ To create a signed request:
 \R7\Request::makeRequest($dataArray, file_get_contents("/path/to/private.key.pem"));
 ```
 
-You can simply very a signed request in a Route:
+You can simply verify a signed request in a Route:
 
 ```php
 $route->get(function($req, $data) {
