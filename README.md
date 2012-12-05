@@ -75,3 +75,14 @@ To create a signed request:
  */
 \R7\Request::makeRequest($dataArray, file_get_contents("/path/to/private.key.pem"));
 ```
+
+You can simply very a signed request in a Route:
+
+```php
+$route->get(function($req, $data) {
+    if(!$req->verifySignature(file_get_contents("/path/to/public.key")) {
+        return new \R7\Response(403, array("status" => "forbidden")); // return 403 Forbidden
+    }
+    return new \R7\Response(200, $data); // HTTP status 200
+});
+```
