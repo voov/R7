@@ -32,6 +32,7 @@
  * Some ideas taken from:
  * http://blog.sosedoff.com/2009/09/20/rails-like-php-url-router/
  */
+namespace R7;
 class Route {
     private $routeUri;
     private $uriRegex;
