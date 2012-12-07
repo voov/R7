@@ -55,10 +55,14 @@ class R7 {
 
         $response = null;
         foreach($this->routes as $route) {
-            $response = $route->executeOn($uri, $method);
+			try {
+            	$r = $route->executeOn($uri, $method);
+				if($r) $response = $r;
+			} catch (\Exception $e) {
+				$response = new Response(500, array("status" => "Server Error" ,"message" => $e->getMessage()));
+			}
         }
-        if($response == null) return; // we have nothing to give back
-
+		if(!$response) $response = new Response(404, array("status" => "Not Found"));
         $type = isset($_GET["type"]) ? $_GET["type"] : "json";
         switch($type) {
             case "json":
