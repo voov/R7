@@ -36,6 +36,21 @@ class Request {
 	}
 
 	/**
+	 * Checks if every key is present in the request
+	 * @param array $keys
+	 * @return bool
+	 */
+	public function hasData(array $keys) {
+		$data_keys = array_keys($this->data);
+		foreach($keys as $key) {
+			if(!in_array($key, $data_keys)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Magic getter
 	 * @param $key
 	 * @return mixed
