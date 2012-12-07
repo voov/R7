@@ -36,7 +36,7 @@ namespace R7;
 class Route {
     private $routeUri;
     private $uriRegex;
-    private $params;
+    private $params = array();
     private $funcHooks = array();
 
     function __construct($routeUri) {
@@ -86,7 +86,14 @@ class Route {
     public function executeOn($uri, $method="get") {
         $matches = array();
         $response = null;
+
+
+
         if(preg_match($this->uriRegex, $uri, $matches)) {
+
+			if(!array_key_exists($method, $this->funcHooks)) {
+				return new Response(405, array("status" => "Method Not Allowed"));
+			}
 
             $index = 1;
             foreach($this->params as $param_key => $param_value) {
@@ -95,12 +102,10 @@ class Route {
 
             // There can be more than one method for a route, so make it
             // iterate through the array
-
             foreach($this->funcHooks[$method] as $func) {
-
                 //$retvalue = $func($this->params);
-                $retvalue = call_user_func($func, new Request(), $this->params);
-                if($retvalue != null) $response = $retvalue;
+                $response = call_user_func($func, new Request(), $this->params);
+                if(!$response) throw new \Exception("No return found!");
             }
             return $response;
         }
