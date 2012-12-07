@@ -61,8 +61,7 @@ class Response {
      */
     public function toJSON() {
         header("Status: HTTP/1.1 " . $this->status);
-        header("Content-type: application/json");
-
+        header("Content-type: application/json;charset=utf8");
         return json_encode($this->data);
     }
 
